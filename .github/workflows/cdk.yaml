@@ -17,7 +17,7 @@ jobs:
         run: ls -al
 
       - name: Change directory to the CDK project
-        run: cd path/to/cdk/project
+        run: cd setup
 
       - name: List files in the CDK project directory
         run: ls -al
