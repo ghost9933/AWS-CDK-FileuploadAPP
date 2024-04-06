@@ -32,7 +32,7 @@ jobs:
           aws-region: "us-east-1"
 
       - name: Build CDK project (if necessary)
-        run: npm run build  # Replace with your actual build command
+        run: cdk deploy --require-approval never  # Replace with your actual build command
 
       - name: Build and deploy CDK stack
         run: cdk deploy --require-approval never
