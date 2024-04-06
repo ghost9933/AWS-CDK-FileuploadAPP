@@ -31,5 +31,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
 
+      - name: Set execute permissions for JavaScript file
+        run: chmod +x bin/setup.js
+
       - name: Build and deploy CDK stack
-        run: npx ts-node bin/setup.ts
+        run: node bin/setup.js
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
