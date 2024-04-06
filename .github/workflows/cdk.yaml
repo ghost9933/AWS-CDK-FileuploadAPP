@@ -31,8 +31,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
 
-      - name: Set execute permissions for cdk
-        run: chmod +x node_modules/aws-cdk/bin/cdk
+      # - name: Set execute permissions for cdk
+      #   run: chmod +x node_modules/aws-cdk/bin/cdk
 
       - name: Acknowledge AWS CDK notice
         run: npx cdk acknowledge 19836
