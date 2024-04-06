@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
 
       - name: Install AWS CDK CLI
-        run: npm install -g aws-cdk
+        run: npm install aws-cdk
 
       - name: Install dependencies
         run: npm install
@@ -31,11 +31,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
 
-      - name: Build CDK project (if necessary)
-        run: cdk deploy --require-approval never  # Replace with your actual build command
+      - name: Set execute permissions for cdk
+        run: chmod +x node_modules/aws-cdk/bin/cdk
+
+      - name: Acknowledge AWS CDK notice
+        run: npx cdk acknowledge 19836
 
       - name: Build and deploy CDK stack
-        run: cdk deploy --require-approval never
+        run: npx cdk deploy --require-approval never
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
