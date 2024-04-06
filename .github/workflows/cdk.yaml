@@ -13,6 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: List files in the directory
+        run: ls -al
+
+      - name: Change directory to the CDK project
+        run: cd path/to/cdk/project
+
+      - name: List files in the CDK project directory
+        run: ls -al
+
       - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
