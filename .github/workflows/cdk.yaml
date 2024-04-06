@@ -13,15 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: List files in the directory
-        run: ls -al
-
-      - name: Change directory to the CDK project
-        run: cd setup
-
-      - name: List files in the CDK project directory
-        run: ls -al
-
       - name: Use Node.js 20
         uses: actions/setup-node@v3
         with:
@@ -33,11 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Transpile TypeScript to JavaScript
-        run: tsc
-
       - name: Build and deploy CDK stack
-        run: cdk deploy --require-approval never --app 'node bin/setup.js'
+        run: cdk deploy --require-approval never --app 'npx ts-node bin/setup.ts'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
