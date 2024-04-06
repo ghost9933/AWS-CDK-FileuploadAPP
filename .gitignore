@@ -12,3 +12,18 @@ modern.jsonp
 resources/sass/.sass-cache/
 resources/.arch-internal-preview.css
 .arch-internal-preview.css
+# Ignore global Node.js modules
+node_modules
+
+# Ignore compiled JavaScript output if you have a separate build step
+dist
+
+# Ignore generated CDK artifacts
+cdk.out
+
+# Ignore your AWS credentials file (if applicable)
+.env
+
+# Ignore other common files
+.gitignore
+README.md
