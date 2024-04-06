@@ -13,10 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
+      - name: Use Node.js 20
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install AWS CDK CLI
         run: npm install -g aws-cdk
@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Build and deploy CDK stack
-        run: cdk deploy --require-approval never
+        run: cdk deploy --require-approval never --app 'node bin/setup.js'
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
