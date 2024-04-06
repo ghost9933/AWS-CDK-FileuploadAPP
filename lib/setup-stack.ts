@@ -6,7 +6,7 @@ import { BucketDeployment, Source } from '@aws-cdk/aws-s3-deployment'; // Update
 import { AllowedMethods, Distribution, OriginAccessIdentity, ViewerProtocolPolicy } from '@aws-cdk/aws-cloudfront'; // Update import statement
 import { S3Origin } from "aws-cdk-lib/aws-cloudfront-origins"; // Update import statement
 
-export class FileUploadStack extends cdk.Stack {
+export class MyCdkProjectStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
