@@ -41,7 +41,7 @@ jobs:
 
       # Add destroy step to delete existing resources
       - name: Destroy existing resources
-        run: cdk destroy --force
+        run: cdk destroy 
         continue-on-error: true
         env:
           NODE_OPTIONS: --max-old-space-size=4096
