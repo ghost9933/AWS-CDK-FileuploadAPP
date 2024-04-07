@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8263ed3cedae70524980323d0ad356346fe141a0936fe52d25b4964c20eef10c.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/778bd6173cb7581f3f116dc5791102a15de597538f1bedb32b44c796f2009157.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -76,6 +76,12 @@
             "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
           }
         ],
+        "/MyCdkProjectStack/StorageBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StorageBucket19DB2FF8"
+          }
+        ],
         "/MyCdkProjectStack/OriginAccessIdentity/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -86,6 +92,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "WebsiteDistributionCFDistribution70408E7F"
+          }
+        ],
+        "/MyCdkProjectStack/S3WebBucketNameParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "S3WebBucketNameParam83DBC7C7"
+          }
+        ],
+        "/MyCdkProjectStack/S3StorageBucketNameParam/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "S3StorageBucketNameParamAAFC3728"
           }
         ],
         "/MyCdkProjectStack/WebsiteURL": [

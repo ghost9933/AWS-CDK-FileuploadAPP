@@ -18,6 +18,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                   "aws:cdk:cloudformation:props": {
+                    "bucketName": "webbucket",
                     "tags": [
                       {
                         "key": "aws-cdk:cr-owned:bb83404d",
@@ -458,6 +459,30 @@
               "version": "2.136.0"
             }
           },
+          "StorageBucket": {
+            "id": "StorageBucket",
+            "path": "MyCdkProjectStack/StorageBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "MyCdkProjectStack/StorageBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "storagebucket"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.136.0"
+            }
+          },
           "OriginAccessIdentity": {
             "id": "OriginAccessIdentity",
             "path": "MyCdkProjectStack/OriginAccessIdentity",
@@ -559,6 +584,58 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_cloudfront.CloudFrontWebDistribution",
+              "version": "2.136.0"
+            }
+          },
+          "S3WebBucketNameParam": {
+            "id": "S3WebBucketNameParam",
+            "path": "MyCdkProjectStack/S3WebBucketNameParam",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "MyCdkProjectStack/S3WebBucketNameParam/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "/my-app/web-bucket-name",
+                    "type": "String",
+                    "value": "webbucket"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
+              "version": "2.136.0"
+            }
+          },
+          "S3StorageBucketNameParam": {
+            "id": "S3StorageBucketNameParam",
+            "path": "MyCdkProjectStack/S3StorageBucketNameParam",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "MyCdkProjectStack/S3StorageBucketNameParam/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
+                  "aws:cdk:cloudformation:props": {
+                    "name": "/my-app/storage-bucket-name",
+                    "type": "String",
+                    "value": "storagebucket"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_ssm.CfnParameter",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_ssm.StringParameter",
               "version": "2.136.0"
             }
           },

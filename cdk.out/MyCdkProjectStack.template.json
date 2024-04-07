@@ -3,6 +3,7 @@
   "WebsiteBucket75C24D94": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
+    "BucketName": "webbucket",
     "Tags": [
      {
       "Key": "aws-cdk:cr-owned:bb83404d",
@@ -278,6 +279,17 @@
     "aws:asset:property": "Code"
    }
   },
+  "StorageBucket19DB2FF8": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "storagebucket"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/StorageBucket/Resource"
+   }
+  },
   "OriginAccessIdentityDF1E3CAC": {
    "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
    "Properties": {
@@ -352,10 +364,32 @@
     "aws:cdk:path": "MyCdkProjectStack/WebsiteDistribution/CFDistribution"
    }
   },
+  "S3WebBucketNameParam83DBC7C7": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/my-app/web-bucket-name",
+    "Type": "String",
+    "Value": "webbucket"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/S3WebBucketNameParam/Resource"
+   }
+  },
+  "S3StorageBucketNameParamAAFC3728": {
+   "Type": "AWS::SSM::Parameter",
+   "Properties": {
+    "Name": "/my-app/storage-bucket-name",
+    "Type": "String",
+    "Value": "storagebucket"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/S3StorageBucketNameParam/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22RQWsCMRCFf4v3mFaF9qwRoVCwKLTHJZudXUaziWQmXSTsfy+70dVDT+/Nm3eYj1nKxepNvs50R3NTnecWS5mOrM1Z6I6KRCuZNtGcgYWq3c1l+fIWzfUR3+Y8bDRBL2hVpAou1l9bcCzzajsFQhMBk1wP0gur27LSMqnafeorhG8IhN6JI7rGAnu3i87wkExG1VPYC9StTAdvYYhHfZyYXS+M9bGqg3cs0z5gg25tDBB9VOAYeeyqobMbOv83pvUPlFskDljG+zXPc39HKuyAU+iOjEW57khZHAnFSH5k3aBrhIrEvj0A+RhMhrj753Af+RLHdyjvKszszlcgT/Tyu1zId7mcnQhxHqJjbEEesv4B058o7+wBAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21RTWvCQBD9Ld7XbVVozxoRhIKi0B7DZjMJo5tZ2ZltkJD/XpKY6KGn9zHv8GZmqRerD/0+MzXPbX6dO8x0cxZjr8rUnDa80s0m2iuISgp6sAGO3qG9P+2HHsTGMLSKV2mTw835ewUkehhtJ0MZZhDW6w5a5UyV5UY3SUFf5g7hGwKjJ3VGKh2Ip10kK50zkaSYzFahqXRz8g46u8dnxYG1yjof8yJ4Et0cApZIa2uBeZ8DCUqfTbrMrsv8n5jGP5BtkSVgFsc2r7pVzFV3zYBUHk0wFQiEvs0o2nHr1HUbp6Zm61Cva04c9kdQ/XHOYkqkUiWRxVcnYB+DHfYc+at5iHKL/ccSTzkOZcjnoC/89rtc6E+9nF0YcR4iCVagTwP+AThta50PAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/CDKMetadata/Default"
