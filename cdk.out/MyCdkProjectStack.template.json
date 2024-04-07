@@ -3,7 +3,7 @@
   "WebsiteBucket75C24D94": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "webbucket",
+    "BucketName": "webbuckethost",
     "Tags": [
      {
       "Key": "aws-cdk:cr-owned:bb83404d",
@@ -282,7 +282,22 @@
   "StorageBucket19DB2FF8": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "BucketName": "storagebucket"
+    "BucketName": "storagebucket-fovus",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "PUT"
+       ],
+       "AllowedOrigins": [
+        "*"
+       ]
+      }
+     ]
+    }
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -369,7 +384,7 @@
    "Properties": {
     "Name": "/my-app/web-bucket-name",
     "Type": "String",
-    "Value": "webbucket"
+    "Value": "webbuckethost"
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/S3WebBucketNameParam/Resource"
@@ -380,7 +395,7 @@
    "Properties": {
     "Name": "/my-app/storage-bucket-name",
     "Type": "String",
-    "Value": "storagebucket"
+    "Value": "storagebucket-fovus"
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/S3StorageBucketNameParam/Resource"

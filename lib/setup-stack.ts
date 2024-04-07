@@ -1,6 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import {RemovalPolicy} from 'aws-cdk-lib';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { CloudFrontWebDistribution, OriginAccessIdentity } from 'aws-cdk-lib/aws-cloudfront';
@@ -24,11 +25,7 @@ export class MyCdkProjectStack extends cdk.Stack {
       destinationBucket: websiteBucket,
     });
 
-    // Create an S3 bucket for storage
-    const storageBucket = new Bucket(this, 'StorageBucket', {
-      removalPolicy: RemovalPolicy.DESTROY,
-      bucketName: S3StorageBucketName,
-    });
+
 
     // Create a CloudFront distribution for the website
     const distribution = new CloudFrontWebDistribution(this, 'WebsiteDistribution', {
@@ -58,5 +55,17 @@ export class MyCdkProjectStack extends cdk.Stack {
     new cdk.CfnOutput(this, 'WebsiteURL', {
       value: `https://${distribution.distributionDomainName}`,
     });
+
+    // Create an S3 bucket for storage
+    const storageBucket = new Bucket(this, 'StorageBucket', {
+        removalPolicy: RemovalPolicy.DESTROY,
+        bucketName: S3StorageBucketName,
+        cors: [
+            {
+                allowedOrigins: [distribution.distributionDomainName], // Adjust this to your frontend domain
+                allowedHeaders: ['*'],
+                allowedMethods: [s3.HttpMethods.PUT, s3.HttpMethods.PUT],
+            } ]
+        });
   }
 }

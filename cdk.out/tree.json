@@ -18,7 +18,7 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                   "aws:cdk:cloudformation:props": {
-                    "bucketName": "webbucket",
+                    "bucketName": "webbuckethost",
                     "tags": [
                       {
                         "key": "aws-cdk:cr-owned:bb83404d",
@@ -469,7 +469,22 @@
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                   "aws:cdk:cloudformation:props": {
-                    "bucketName": "storagebucket"
+                    "bucketName": "storagebucket-fovus",
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "PUT"
+                          ],
+                          "allowedOrigins": [
+                            "*"
+                          ]
+                        }
+                      ]
+                    }
                   }
                 },
                 "constructInfo": {
@@ -599,7 +614,7 @@
                   "aws:cdk:cloudformation:props": {
                     "name": "/my-app/web-bucket-name",
                     "type": "String",
-                    "value": "webbucket"
+                    "value": "webbuckethost"
                   }
                 },
                 "constructInfo": {
@@ -625,7 +640,7 @@
                   "aws:cdk:cloudformation:props": {
                     "name": "/my-app/storage-bucket-name",
                     "type": "String",
-                    "value": "storagebucket"
+                    "value": "storagebucket-fovus"
                   }
                 },
                 "constructInfo": {
