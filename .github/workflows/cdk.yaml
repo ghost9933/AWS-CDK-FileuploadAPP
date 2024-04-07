@@ -39,11 +39,22 @@ jobs:
         run: npm run build
         working-directory: my-react-app
 
-      # Add any additional steps here
-
-      - name: Build and deploy CDK stack
-        run: |
-          cdk bootstrap --require-approval never
-          cdk deploy --require-approval never
+      # Add destroy step to delete existing resources
+      - name: Destroy existing resources
+        run: cdk destroy --force
+        continue-on-error: true
         env:
           NODE_OPTIONS: --max-old-space-size=4096
+
+      # Build and deploy CDK stack after destroying existing resources
+      - name: Build and deploy CDK stack
+        run: cdk deploy --require-approval never
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
+
+      # - name: Build and deploy CDK stack
+      #   run: |
+      #     cdk bootstrap --require-approval never
+      #     cdk deploy --require-approval never
+      #   env:
+      #     NODE_OPTIONS: --max-old-space-size=4096
