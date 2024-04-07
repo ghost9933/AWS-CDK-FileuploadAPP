@@ -64,7 +64,7 @@ export class MyCdkProjectStack extends cdk.Stack {
             {
                 allowedOrigins: [distribution.distributionDomainName], // Adjust this to your frontend domain
                 allowedHeaders: ['*'],
-                allowedMethods: [s3.HttpMethods.PUT, s3.HttpMethods.PUT],
+                allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
             } ]
         });
   }
