@@ -29,7 +29,7 @@ cdk.out
 .gitignore
 
 
-*.ts
+.ts
 !*.d.ts
 
 # CDK asset staging directory
