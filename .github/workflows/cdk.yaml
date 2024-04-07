@@ -24,9 +24,6 @@ jobs:
       - name: Install ts-node (if needed)
         run: npm install -g ts-node
 
-      - name: Install dependencies
-        run: npm install
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -42,16 +39,11 @@ jobs:
         run: npm run build
         working-directory: my-react-app
 
-      # - name: Set execute permissions for cdk
-      #   run: chmod +x node_modules/aws-cdk/bin/cdk
-
-      # - name: Acknowledge AWS CDK notice
-      #   run: cdk acknowledge 19836
+      # Add any additional steps here
 
       - name: Build and deploy CDK stack
-        run: cdk bootstrap --require-approval never
+        run: |
+          cdk bootstrap --require-approval never
+          cdk deploy --require-approval never
         env:
           NODE_OPTIONS: --max-old-space-size=4096
-        # env:
-        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
