@@ -26,4 +26,11 @@ cdk.out
 
 # Ignore other common files
 .gitignore
-README.md
+
+
+*.ts
+!*.d.ts
+
+# CDK asset staging directory
+.cdk.staging
+cdk.out

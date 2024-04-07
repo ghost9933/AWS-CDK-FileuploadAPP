@@ -1,10 +1,12 @@
 {
-  "version": "21.0.0",
+  "version": "36.0.0",
   "artifacts": {
-    "Tree": {
-      "type": "cdk:tree",
+    "MyCdkProjectStack.assets": {
+      "type": "cdk:asset-manifest",
       "properties": {
-        "file": "tree.json"
+        "file": "MyCdkProjectStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
       }
     },
     "MyCdkProjectStack": {
@@ -12,79 +14,88 @@
       "environment": "aws://unknown-account/unknown-region",
       "properties": {
         "templateFile": "MyCdkProjectStack.template.json",
-        "validateOnSynth": false
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/97fc1adbf217b8d835a372745803f9ae1c6f1dbfe6c59659e64f631f10980357.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MyCdkProjectStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
       },
+      "dependencies": [
+        "MyCdkProjectStack.assets"
+      ],
       "metadata": {
-        "/MyCdkProjectStack/MyBucket/Resource": [
+        "/MyCdkProjectStack/ReactDeploymentBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "MyBucketF68F3FF0",
-            "trace": [
-              "new Bucket (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\aws-s3\\lib\\bucket.ts:1676:22)",
-              "new MyCdkProjectStack (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\lib\\setup-stack.ts:8:9)",
-              "Object.<anonymous> (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\bin\\setup.ts:7:1)",
-              "Module._compile (node:internal/modules/cjs/loader:1368:14)",
-              "Module.m._compile (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\index.ts:1618:23)",
-              "Module._extensions..js (node:internal/modules/cjs/loader:1426:10)",
-              "Object.require.extensions.<computed> [as .ts] (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\index.ts:1621:12)",
-              "Module.load (node:internal/modules/cjs/loader:1205:32)",
-              "Function.Module._load (node:internal/modules/cjs/loader:1021:12)",
-              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:142:12)",
-              "phase4 (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\bin.ts:649:14)",
-              "bootstrap (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\bin.ts:95:10)",
-              "main (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\bin.ts:55:10)",
-              "Object.<anonymous> (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\ts-node\\src\\bin.ts:800:3)",
-              "Module._compile (node:internal/modules/cjs/loader:1368:14)",
-              "Object.Module._extensions..js (node:internal/modules/cjs/loader:1426:10)",
-              "Module.load (node:internal/modules/cjs/loader:1205:32)",
-              "Function.Module._load (node:internal/modules/cjs/loader:1021:12)",
-              "Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:142:12)",
-              "node:internal/main/run_main_module:28:49"
-            ]
+            "data": "ReactDeploymentBucket791154AD"
+          }
+        ],
+        "/MyCdkProjectStack/ReactDeploymentBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReactDeploymentBucketPolicy3A7F78A1"
+          }
+        ],
+        "/MyCdkProjectStack/ReactDeploymentDistribution/CFDistribution": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ReactDeploymentDistributionCFDistribution676B033E"
+          }
+        ],
+        "/MyCdkProjectStack/CloudFrontDistributionDomainName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CloudFrontDistributionDomainName"
+          }
+        ],
+        "/MyCdkProjectStack/WebsiteURL": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebsiteURL"
           }
         ],
         "/MyCdkProjectStack/CDKMetadata/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CDKMetadata",
-            "trace": [
-              "new MetadataResource (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\metadata-resource.ts:22:24)",
-              "C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:166:5",
-              "visit (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:231:5)",
-              "visit (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:227:5)",
-              "injectMetadataResources (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:157:3)",
-              "Object.synthesize (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:18:3)",
-              "App.synth (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\stage.ts:180:23)",
-              "process.<anonymous> (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\app.ts:131:45)",
-              "Object.onceWrapper (node:events:634:26)",
-              "process.emit (node:events:519:28)",
-              "process.emit (node:domain:488:12)",
-              "process.emit.sharedData.processEmitHook.installedValue [as emit] (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@cspotcode\\source-map-support\\source-map-support.js:745:40)"
-            ]
+            "data": "CDKMetadata"
           }
         ],
         "/MyCdkProjectStack/CDKMetadata/Condition": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CDKMetadataAvailable",
-            "trace": [
-              "new MetadataResource (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\metadata-resource.ts:31:27)",
-              "C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:166:5",
-              "visit (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:231:5)",
-              "visit (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:227:5)",
-              "injectMetadataResources (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:157:3)",
-              "Object.synthesize (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.ts:18:3)",
-              "App.synth (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\stage.ts:180:23)",
-              "process.<anonymous> (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@aws-cdk\\core\\lib\\app.ts:131:45)",
-              "Object.onceWrapper (node:events:634:26)",
-              "process.emit (node:events:519:28)",
-              "process.emit (node:domain:488:12)",
-              "process.emit.sharedData.processEmitHook.installedValue [as emit] (C:\\Users\\Nikhil\\Desktop\\Fovus\\AWS-FileUpload\\node_modules\\@cspotcode\\source-map-support\\source-map-support.js:745:40)"
-            ]
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MyCdkProjectStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MyCdkProjectStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
           }
         ]
       },
       "displayName": "MyCdkProjectStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
     }
   }
 }

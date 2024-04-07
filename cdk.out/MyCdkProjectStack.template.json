@@ -1,27 +1,137 @@
 {
  "Resources": {
-  "MyBucketF68F3FF0": {
+  "ReactDeploymentBucket791154AD": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
-    "VersioningConfiguration": {
-     "Status": "Enabled"
+    "BucketName": "react-deployment-bucket",
+    "WebsiteConfiguration": {
+     "ErrorDocument": "index.html",
+     "IndexDocument": "index.html"
     }
    },
    "UpdateReplacePolicy": "Retain",
    "DeletionPolicy": "Retain",
    "Metadata": {
-    "aws:cdk:path": "MyCdkProjectStack/MyBucket/Resource"
+    "aws:cdk:path": "MyCdkProjectStack/ReactDeploymentBucket/Resource"
+   }
+  },
+  "ReactDeploymentBucketPolicy3A7F78A1": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "ReactDeploymentBucket791154AD"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": "*"
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "ReactDeploymentBucket791154AD",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/ReactDeploymentBucket/Policy/Resource"
+   }
+  },
+  "ReactDeploymentDistributionCFDistribution676B033E": {
+   "Type": "AWS::CloudFront::Distribution",
+   "Properties": {
+    "DistributionConfig": {
+     "DefaultCacheBehavior": {
+      "AllowedMethods": [
+       "GET",
+       "HEAD"
+      ],
+      "CachedMethods": [
+       "GET",
+       "HEAD"
+      ],
+      "Compress": true,
+      "ForwardedValues": {
+       "Cookies": {
+        "Forward": "none"
+       },
+       "QueryString": false
+      },
+      "TargetOriginId": "origin1",
+      "ViewerProtocolPolicy": "redirect-to-https"
+     },
+     "DefaultRootObject": "index.html",
+     "Enabled": true,
+     "HttpVersion": "http2",
+     "IPV6Enabled": true,
+     "Origins": [
+      {
+       "ConnectionAttempts": 3,
+       "ConnectionTimeout": 10,
+       "DomainName": {
+        "Fn::GetAtt": [
+         "ReactDeploymentBucket791154AD",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "origin1",
+       "S3OriginConfig": {}
+      }
+     ],
+     "PriceClass": "PriceClass_100",
+     "ViewerCertificate": {
+      "CloudFrontDefaultCertificate": true
+     }
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/ReactDeploymentDistribution/CFDistribution"
    }
   },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/yWLMQ7CMAwA39I9dduAxIrID8oLKsdIaYQtxQ4MUf6OSqe74W4BP19hHu7bV0eMeWoohaA9bcPsgrBaqWguvHgllVqQDg/CMVkS7u4Y9QLtUTHTPzytd8cSCXadPn6BG/hh15TGUtnSm2A9+QPdLgFUgQAAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02NwQrCMBBEv6X3dLUt6N2KV6UePEqbpLBtTSS7sUjIv0taQU/zZphhSiiqHWyzdqZcqjGfsINw5VaOop3pHqiCcPBy1Czq3nxplYudUL5/8eqjkJP1qnfWMIQ68SnxTXdHJHbYeUZr0uzfx5iSs+enX54aTdY7qRPX1ihcSsJYpWGgzassYA9lNhBi7rxhfGhoVv0AjiZ38tMAAAA="
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/CDKMetadata/Default"
    },
    "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "CloudFrontDistributionDomainName": {
+   "Description": "CloudFront Distribution Domain Name",
+   "Value": {
+    "Fn::GetAtt": [
+     "ReactDeploymentDistributionCFDistribution676B033E",
+     "DomainName"
+    ]
+   }
+  },
+  "WebsiteURL": {
+   "Description": "URL of the website",
+   "Value": {
+    "Fn::GetAtt": [
+     "ReactDeploymentBucket791154AD",
+     "WebsiteURL"
+    ]
+   }
   }
  },
  "Conditions": {
@@ -166,6 +276,22 @@
         {
          "Ref": "AWS::Region"
         },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
         "me-south-1"
        ]
       },
@@ -176,7 +302,11 @@
         },
         "sa-east-1"
        ]
-      },
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
       {
        "Fn::Equals": [
         {
@@ -192,11 +322,7 @@
         },
         "us-east-2"
        ]
-      }
-     ]
-    },
-    {
-     "Fn::Or": [
+      },
       {
        "Fn::Equals": [
         {
@@ -214,6 +340,40 @@
        ]
       }
      ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
     }
    ]
   }

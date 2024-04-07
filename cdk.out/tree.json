@@ -4,42 +4,170 @@
     "id": "App",
     "path": "",
     "children": {
-      "Tree": {
-        "id": "Tree",
-        "path": "Tree",
-        "constructInfo": {
-          "fqn": "@aws-cdk/core.Construct",
-          "version": "1.204.0"
-        }
-      },
       "MyCdkProjectStack": {
         "id": "MyCdkProjectStack",
         "path": "MyCdkProjectStack",
         "children": {
-          "MyBucket": {
-            "id": "MyBucket",
-            "path": "MyCdkProjectStack/MyBucket",
+          "ReactDeploymentBucket": {
+            "id": "ReactDeploymentBucket",
+            "path": "MyCdkProjectStack/ReactDeploymentBucket",
             "children": {
               "Resource": {
                 "id": "Resource",
-                "path": "MyCdkProjectStack/MyBucket/Resource",
+                "path": "MyCdkProjectStack/ReactDeploymentBucket/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                   "aws:cdk:cloudformation:props": {
-                    "versioningConfiguration": {
-                      "status": "Enabled"
+                    "bucketName": "react-deployment-bucket",
+                    "websiteConfiguration": {
+                      "indexDocument": "index.html",
+                      "errorDocument": "index.html"
                     }
                   }
                 },
                 "constructInfo": {
-                  "fqn": "@aws-cdk/aws-s3.CfnBucket",
-                  "version": "1.204.0"
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.136.0"
+                }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "MyCdkProjectStack/ReactDeploymentBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "MyCdkProjectStack/ReactDeploymentBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "ReactDeploymentBucket791154AD"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "s3:GetObject",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "AWS": "*"
+                              },
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "ReactDeploymentBucket791154AD",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/*"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.136.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.136.0"
                 }
               }
             },
             "constructInfo": {
-              "fqn": "@aws-cdk/aws-s3.Bucket",
-              "version": "1.204.0"
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.136.0"
+            }
+          },
+          "ReactDeploymentDistribution": {
+            "id": "ReactDeploymentDistribution",
+            "path": "MyCdkProjectStack/ReactDeploymentDistribution",
+            "children": {
+              "CFDistribution": {
+                "id": "CFDistribution",
+                "path": "MyCdkProjectStack/ReactDeploymentDistribution/CFDistribution",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFront::Distribution",
+                  "aws:cdk:cloudformation:props": {
+                    "distributionConfig": {
+                      "enabled": true,
+                      "defaultRootObject": "index.html",
+                      "httpVersion": "http2",
+                      "priceClass": "PriceClass_100",
+                      "ipv6Enabled": true,
+                      "origins": [
+                        {
+                          "id": "origin1",
+                          "domainName": {
+                            "Fn::GetAtt": [
+                              "ReactDeploymentBucket791154AD",
+                              "RegionalDomainName"
+                            ]
+                          },
+                          "s3OriginConfig": {},
+                          "connectionAttempts": 3,
+                          "connectionTimeout": 10
+                        }
+                      ],
+                      "defaultCacheBehavior": {
+                        "allowedMethods": [
+                          "GET",
+                          "HEAD"
+                        ],
+                        "cachedMethods": [
+                          "GET",
+                          "HEAD"
+                        ],
+                        "compress": true,
+                        "forwardedValues": {
+                          "queryString": false,
+                          "cookies": {
+                            "forward": "none"
+                          }
+                        },
+                        "targetOriginId": "origin1",
+                        "viewerProtocolPolicy": "redirect-to-https"
+                      },
+                      "viewerCertificate": {
+                        "cloudFrontDefaultCertificate": true
+                      }
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.CfnDistribution",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudfront.CloudFrontWebDistribution",
+              "version": "2.136.0"
+            }
+          },
+          "CloudFrontDistributionDomainName": {
+            "id": "CloudFrontDistributionDomainName",
+            "path": "MyCdkProjectStack/CloudFrontDistributionDomainName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.136.0"
+            }
+          },
+          "WebsiteURL": {
+            "id": "WebsiteURL",
+            "path": "MyCdkProjectStack/WebsiteURL",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.136.0"
             }
           },
           "CDKMetadata": {
@@ -50,34 +178,58 @@
                 "id": "Default",
                 "path": "MyCdkProjectStack/CDKMetadata/Default",
                 "constructInfo": {
-                  "fqn": "@aws-cdk/core.CfnResource",
-                  "version": "1.204.0"
+                  "fqn": "aws-cdk-lib.CfnResource",
+                  "version": "2.136.0"
                 }
               },
               "Condition": {
                 "id": "Condition",
                 "path": "MyCdkProjectStack/CDKMetadata/Condition",
                 "constructInfo": {
-                  "fqn": "@aws-cdk/core.CfnCondition",
-                  "version": "1.204.0"
+                  "fqn": "aws-cdk-lib.CfnCondition",
+                  "version": "2.136.0"
                 }
               }
             },
             "constructInfo": {
-              "fqn": "@aws-cdk/core.Construct",
-              "version": "1.204.0"
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "MyCdkProjectStack/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.136.0"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "MyCdkProjectStack/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.136.0"
             }
           }
         },
         "constructInfo": {
-          "fqn": "@aws-cdk/core.Stack",
-          "version": "1.204.0"
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.136.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
         }
       }
     },
     "constructInfo": {
-      "fqn": "@aws-cdk/core.App",
-      "version": "1.204.0"
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.136.0"
     }
   }
 }
