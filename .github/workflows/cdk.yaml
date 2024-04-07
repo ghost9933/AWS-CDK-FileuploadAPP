@@ -41,7 +41,7 @@ jobs:
       #   run: cdk acknowledge 19836
 
       - name: Build and deploy CDK stack
-        run: cdk deploy --require-approval never
+        run: cdk bootstrap --require-approval never
         env:
           NODE_OPTIONS: --max-old-space-size=4096
         # env:
