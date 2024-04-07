@@ -34,6 +34,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: "us-east-1"
 
+      - name: Install dependencies
+        run: npm install
+        working-directory: my-react-app
+
+      - name: Build the React app
+        run: npm run build
+        working-directory: my-react-app
+
       # - name: Set execute permissions for cdk
       #   run: chmod +x node_modules/aws-cdk/bin/cdk
 
