@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { S3StorageBucketName } from '../../commonVariables';
+import { S3StorageBucketName } from '../commonVariables';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
