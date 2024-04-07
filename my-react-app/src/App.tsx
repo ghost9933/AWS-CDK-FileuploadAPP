@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { config,S3 } from 'aws-sdk'; // Import AWS SDK S3 class
 import { S3StorageBucketName } from './commonVariables';
 
-const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+// const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
+// const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -17,7 +17,7 @@ function App() {
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   });
-  
+
   const s3 = new S3({});
   
   const handleUpload = async () => {
