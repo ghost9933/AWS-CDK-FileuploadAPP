@@ -62,7 +62,7 @@ export class MyCdkProjectStack extends cdk.Stack {
         bucketName: S3StorageBucketName,
         cors: [
             {
-                allowedOrigins: [distribution.distributionDomainName], // Adjust this to your frontend domain
+                allowedOrigins: [`https://${distribution.distributionDomainName}`], // Adjust this to your frontend domain
                 allowedHeaders: ['*'],
                 allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
             } ]
