@@ -5,7 +5,7 @@ import {RemovalPolicy} from 'aws-cdk-lib';
 import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
 import { CloudFrontWebDistribution, OriginAccessIdentity } from 'aws-cdk-lib/aws-cloudfront';
 import * as ssm from 'aws-cdk-lib/aws-ssm';
-import { S3StorageBucketName, S3WebBucketName } from '../my-react-app/commonVariables';
+import { S3StorageBucketName, S3WebBucketName } from '../my-react-app/src/commonVariables';
 
 export class MyCdkProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
