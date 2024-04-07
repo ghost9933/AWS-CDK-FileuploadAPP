@@ -14,6 +14,7 @@ resources/.arch-internal-preview.css
 .arch-internal-preview.css
 # Ignore global Node.js modules
 node_modules/*
+ */node_modules
 
 # Ignore compiled JavaScript output if you have a separate build step
 dist/*

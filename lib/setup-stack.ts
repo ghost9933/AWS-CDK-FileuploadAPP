@@ -1,69 +1,45 @@
-import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { Bucket } from 'aws-cdk-lib/aws-s3';
-import { CloudFrontWebDistribution } from 'aws-cdk-lib/aws-cloudfront';
+import { Bucket, BucketAccessControl } from 'aws-cdk-lib/aws-s3';
+import { BucketDeployment, Source } from 'aws-cdk-lib/aws-s3-deployment';
+import { CloudFrontWebDistribution, OriginAccessIdentity } from 'aws-cdk-lib/aws-cloudfront';
+import { RemovalPolicy } from 'aws-cdk-lib';
 
-export class MyCdkProjectStack extends Stack {
+export class MyCdkProjectStack extends cdk.Stack {
 
-    public readonly bucket: Bucket; 
-    public readonly distribution: CloudFrontWebDistribution;
-    public readonly cloudfrontDomainName: CfnOutput;
-    public readonly s3BucketUrl: CfnOutput;
-
-  constructor(scope: Construct, id: string, props?: StackProps) {
-    super(scope, id, props);
-
-    this.bucket = this._createS3Bucket();
-    this.distribution = this._createCloudFrontDistribution(this.bucket);
-    this.cloudfrontDomainName = this._outputDomainName(this.distribution);
-    this.s3BucketUrl = this._outputS3Url(this.bucket);
-  }
-
-  _createS3Bucket() {
-    const reactDeploymentBucket = new Bucket(this, 'ReactDeploymentBucket', {
-      bucketName: 'react-deployment-bucket', //should be unique
-      websiteIndexDocument: 'index.html',
-      websiteErrorDocument: 'index.html',
-      publicReadAccess: true,
-    });
-
-    return reactDeploymentBucket;
-  }
-
-  _createCloudFrontDistribution(bucket: Bucket) {
-    const distribution = new CloudFrontWebDistribution(
-      this,
-      'ReactDeploymentDistribution',
-      {
-        originConfigs: [
-          {
-            s3OriginSource: {
-              s3BucketSource: bucket,
+      constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+        super(scope, id, props);
+    
+        // Create an S3 bucket to host the website
+        const websiteBucket = new Bucket(this, 'WebsiteBucket', {
+          removalPolicy: RemovalPolicy.DESTROY, // Change to RETAIN if you don't want the bucket to be deleted when the stack is deleted
+          websiteIndexDocument: 'index.html',
+        //   publicReadAccess: true,
+        //   accessControl: BucketAccessControl.PUBLIC_READ
+        });
+    
+        // Deploy the React static website to the S3 bucket
+        new BucketDeployment(this, 'WebsiteDeployment', {
+          sources: [Source.asset('./my-react-app/build')], // Replace with the path to your React app build directory
+          destinationBucket: websiteBucket,
+        });
+    
+        // Create a CloudFront distribution for the website
+        const distribution = new CloudFrontWebDistribution(this, 'WebsiteDistribution', {
+          originConfigs: [
+            {
+              s3OriginSource: {
+                s3BucketSource: websiteBucket,
+                originAccessIdentity: new OriginAccessIdentity(this, 'OriginAccessIdentity'),
+              },
+              behaviors: [{ isDefaultBehavior: true }],
             },
-            behaviors: [{ isDefaultBehavior: true }],
-          },
-        ],
+          ],
+        });
+    
+        // Output the website URL
+        new cdk.CfnOutput(this, 'WebsiteURL', {
+          value: `https://${distribution.distributionDomainName}`,
+        });
       }
-    );
-
-    return distribution;
-  }
-
-  _outputS3Url(reactDeploymentBucket: Bucket) {
-    const s3Url = new CfnOutput(this, 'WebsiteURL', {
-      value: reactDeploymentBucket.bucketWebsiteUrl,
-      description: 'URL of the website',
-    });
-
-    return s3Url;
-  }
-
-  _outputDomainName(distribution: CloudFrontWebDistribution) {
-    const domainName = new CfnOutput(this, 'CloudFrontDistributionDomainName', {
-      value: distribution.distributionDomainName,
-      description: 'CloudFront Distribution Domain Name',
-    });
-
-    return domainName;
-  }
-}
+    }

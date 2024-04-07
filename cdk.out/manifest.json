@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/97fc1adbf217b8d835a372745803f9ae1c6f1dbfe6c59659e64f631f10980357.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/8263ed3cedae70524980323d0ad356346fe141a0936fe52d25b4964c20eef10c.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,28 +34,58 @@
         "MyCdkProjectStack.assets"
       ],
       "metadata": {
-        "/MyCdkProjectStack/ReactDeploymentBucket/Resource": [
+        "/MyCdkProjectStack/WebsiteBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ReactDeploymentBucket791154AD"
+            "data": "WebsiteBucket75C24D94"
           }
         ],
-        "/MyCdkProjectStack/ReactDeploymentBucket/Policy/Resource": [
+        "/MyCdkProjectStack/WebsiteBucket/Policy/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ReactDeploymentBucketPolicy3A7F78A1"
+            "data": "WebsiteBucketPolicyE10E3262"
           }
         ],
-        "/MyCdkProjectStack/ReactDeploymentDistribution/CFDistribution": [
+        "/MyCdkProjectStack/WebsiteDeployment/AwsCliLayer/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "ReactDeploymentDistributionCFDistribution676B033E"
+            "data": "WebsiteDeploymentAwsCliLayer5BFD2264"
           }
         ],
-        "/MyCdkProjectStack/CloudFrontDistributionDomainName": [
+        "/MyCdkProjectStack/WebsiteDeployment/CustomResource/Default": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "CloudFrontDistributionDomainName"
+            "data": "WebsiteDeploymentCustomResourceA1782F82"
+          }
+        ],
+        "/MyCdkProjectStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRole89A01265"
+          }
+        ],
+        "/MyCdkProjectStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756CServiceRoleDefaultPolicy88902FDF"
+          }
+        ],
+        "/MyCdkProjectStack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
+          }
+        ],
+        "/MyCdkProjectStack/OriginAccessIdentity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OriginAccessIdentityDF1E3CAC"
+          }
+        ],
+        "/MyCdkProjectStack/WebsiteDistribution/CFDistribution": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebsiteDistributionCFDistribution70408E7F"
           }
         ],
         "/MyCdkProjectStack/WebsiteURL": [
