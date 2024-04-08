@@ -95,7 +95,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "79e4c5a16c870bf9419657ab3359a6e13b77d0a260a071d72e822c1269fcbf9e.zip"
+     "97670ee6ba8df344e7085b718a199a895b6e23b5faa48f54e5d2d38e371f9572.zip"
     ],
     "DestinationBucketName": {
      "Ref": "WebsiteBucket75C24D94"
@@ -279,32 +279,6 @@
     "aws:asset:property": "Code"
    }
   },
-  "StorageBucket19DB2FF8": {
-   "Type": "AWS::S3::Bucket",
-   "Properties": {
-    "BucketName": "storagebucket-fovus",
-    "CorsConfiguration": {
-     "CorsRules": [
-      {
-       "AllowedHeaders": [
-        "*"
-       ],
-       "AllowedMethods": [
-        "PUT"
-       ],
-       "AllowedOrigins": [
-        "*"
-       ]
-      }
-     ]
-    }
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
-   "Metadata": {
-    "aws:cdk:path": "MyCdkProjectStack/StorageBucket/Resource"
-   }
-  },
   "OriginAccessIdentityDF1E3CAC": {
    "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
    "Properties": {
@@ -399,6 +373,46 @@
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/S3StorageBucketNameParam/Resource"
+   }
+  },
+  "StorageBucket19DB2FF8": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "BucketName": "storagebucket-fovus",
+    "CorsConfiguration": {
+     "CorsRules": [
+      {
+       "AllowedHeaders": [
+        "*"
+       ],
+       "AllowedMethods": [
+        "GET",
+        "PUT"
+       ],
+       "AllowedOrigins": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "https://",
+           {
+            "Fn::GetAtt": [
+             "WebsiteDistributionCFDistribution70408E7F",
+             "DomainName"
+            ]
+           }
+          ]
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/StorageBucket/Resource"
    }
   },
   "CDKMetadata": {

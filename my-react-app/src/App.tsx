@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { config,S3 } from 'aws-sdk'; // Import AWS SDK S3 class
+import axios from 'axios';
 import { S3StorageBucketName } from './commonVariables';
-
-// const awsAccessKeyId = process.env.AWS_ACCESS_KEY_ID;
-// const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -13,13 +10,6 @@ function App() {
     setSelectedFile(event.target.files?.[0] || null); // Handle empty selection
   };
 
-  config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  });
-
-  const s3 = new S3({});
-  
   const handleUpload = async () => {
     if (!selectedFile) {
       console.error('No file selected for upload');
@@ -29,14 +19,18 @@ function App() {
     setUploadStatus('uploading');
   
     try {
-      // Upload file to the storage bucket using AWS SDK
-      const params = {
-        Bucket: S3StorageBucketName,
-        Key: selectedFile.name,
-        Body: selectedFile,
-        ContentType: selectedFile.type,
-      };
-      await s3.upload(params).promise(); // Upload the file to S3 bucket
+      // Upload file to the storage bucket
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+  
+      await axios({
+        method: 'put',
+        url: `https://${S3StorageBucketName}.s3.amazonaws.com/${selectedFile.name}`,
+        headers: {
+          'Content-Type': selectedFile.type,
+        },
+        data: formData,
+      });
   
       setUploadStatus('success');
       setSelectedFile(null); // Clear file selection after successful upload

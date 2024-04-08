@@ -459,45 +459,6 @@
               "version": "2.136.0"
             }
           },
-          "StorageBucket": {
-            "id": "StorageBucket",
-            "path": "MyCdkProjectStack/StorageBucket",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "MyCdkProjectStack/StorageBucket/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
-                  "aws:cdk:cloudformation:props": {
-                    "bucketName": "storagebucket-fovus",
-                    "corsConfiguration": {
-                      "corsRules": [
-                        {
-                          "allowedHeaders": [
-                            "*"
-                          ],
-                          "allowedMethods": [
-                            "PUT"
-                          ],
-                          "allowedOrigins": [
-                            "*"
-                          ]
-                        }
-                      ]
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
-                  "version": "2.136.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_s3.Bucket",
-              "version": "2.136.0"
-            }
-          },
           "OriginAccessIdentity": {
             "id": "OriginAccessIdentity",
             "path": "MyCdkProjectStack/OriginAccessIdentity",
@@ -659,6 +620,59 @@
             "path": "MyCdkProjectStack/WebsiteURL",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
+              "version": "2.136.0"
+            }
+          },
+          "StorageBucket": {
+            "id": "StorageBucket",
+            "path": "MyCdkProjectStack/StorageBucket",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "MyCdkProjectStack/StorageBucket/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
+                  "aws:cdk:cloudformation:props": {
+                    "bucketName": "storagebucket-fovus",
+                    "corsConfiguration": {
+                      "corsRules": [
+                        {
+                          "allowedHeaders": [
+                            "*"
+                          ],
+                          "allowedMethods": [
+                            "GET",
+                            "PUT"
+                          ],
+                          "allowedOrigins": [
+                            {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "https://",
+                                  {
+                                    "Fn::GetAtt": [
+                                      "WebsiteDistributionCFDistribution70408E7F",
+                                      "DomainName"
+                                    ]
+                                  }
+                                ]
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_s3.Bucket",
               "version": "2.136.0"
             }
           },
