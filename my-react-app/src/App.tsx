@@ -21,8 +21,8 @@ function App() {
   
     try {
       // Fetching credentials from environment variables
-      const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
-      const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+      const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+      const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
 
       // Update AWS config with environment variables
       AWS.config.update({
