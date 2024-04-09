@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { S3StorageBucketName } from './commonVariables';
+import AWS from 'aws-sdk';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -19,18 +20,28 @@ function App() {
     setUploadStatus('uploading');
   
     try {
-      // Upload file to the storage bucket
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-  
-      await axios({
-        method: 'put',
-        url: `https://${S3StorageBucketName}.s3.amazonaws.com/${selectedFile.name}`,
-        headers: {
-          'Content-Type': selectedFile.type,
-        },
-        data: formData,
+      // Fetching credentials from environment variables
+      const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID;
+      const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
+      // Update AWS config with environment variables
+      AWS.config.update({
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey
       });
+
+      // Create S3 instance
+      const s3 = new AWS.S3();
+
+      // Upload file to the storage bucket
+      const params = {
+        Bucket: S3StorageBucketName,
+        Key: selectedFile.name,
+        Body: selectedFile,
+        ContentType: selectedFile.type,
+      };
+
+      await s3.upload(params).promise();
   
       setUploadStatus('success');
       setSelectedFile(null); // Clear file selection after successful upload

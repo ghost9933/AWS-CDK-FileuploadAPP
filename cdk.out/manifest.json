@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/693017eac73e74bd57c84cd2d7f6994216883c8d71b6afd3d674f42f0ab3627a.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ae3f3881d5007e0838035f7f01ea792d80b67e6bb06cf63528abbb84d2c6e0db.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -34,6 +34,12 @@
         "MyCdkProjectStack.assets"
       ],
       "metadata": {
+        "/MyCdkProjectStack/OriginAccessIdentity/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OriginAccessIdentityDF1E3CAC"
+          }
+        ],
         "/MyCdkProjectStack/WebsiteBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -76,12 +82,6 @@
             "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C81C01536"
           }
         ],
-        "/MyCdkProjectStack/OriginAccessIdentity/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "OriginAccessIdentityDF1E3CAC"
-          }
-        ],
         "/MyCdkProjectStack/WebsiteDistribution/CFDistribution": [
           {
             "type": "aws:cdk:logicalId",
@@ -110,6 +110,18 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "StorageBucket19DB2FF8"
+          }
+        ],
+        "/MyCdkProjectStack/StorageBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StorageBucketPolicy41A048DB"
+          }
+        ],
+        "/MyCdkProjectStack/StorageBucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "StorageBucketName"
           }
         ],
         "/MyCdkProjectStack/CDKMetadata/Default": [

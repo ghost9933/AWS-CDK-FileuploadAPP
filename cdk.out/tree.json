@@ -8,6 +8,32 @@
         "id": "MyCdkProjectStack",
         "path": "MyCdkProjectStack",
         "children": {
+          "OriginAccessIdentity": {
+            "id": "OriginAccessIdentity",
+            "path": "MyCdkProjectStack/OriginAccessIdentity",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "MyCdkProjectStack/OriginAccessIdentity/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+                  "aws:cdk:cloudformation:props": {
+                    "cloudFrontOriginAccessIdentityConfig": {
+                      "comment": "Allows CloudFront to reach the bucket"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_cloudfront.CfnCloudFrontOriginAccessIdentity",
+                  "version": "2.136.0"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
+              "version": "2.136.0"
+            }
+          },
           "WebsiteBucket": {
             "id": "WebsiteBucket",
             "path": "MyCdkProjectStack/WebsiteBucket",
@@ -459,32 +485,6 @@
               "version": "2.136.0"
             }
           },
-          "OriginAccessIdentity": {
-            "id": "OriginAccessIdentity",
-            "path": "MyCdkProjectStack/OriginAccessIdentity",
-            "children": {
-              "Resource": {
-                "id": "Resource",
-                "path": "MyCdkProjectStack/OriginAccessIdentity/Resource",
-                "attributes": {
-                  "aws:cdk:cloudformation:type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-                  "aws:cdk:cloudformation:props": {
-                    "cloudFrontOriginAccessIdentityConfig": {
-                      "comment": "Allows CloudFront to reach the bucket"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.aws_cloudfront.CfnCloudFrontOriginAccessIdentity",
-                  "version": "2.136.0"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_cloudfront.OriginAccessIdentity",
-              "version": "2.136.0"
-            }
-          },
           "WebsiteDistribution": {
             "id": "WebsiteDistribution",
             "path": "MyCdkProjectStack/WebsiteDistribution",
@@ -662,6 +662,12 @@
                           ]
                         }
                       ]
+                    },
+                    "publicAccessBlockConfiguration": {
+                      "blockPublicAcls": true,
+                      "blockPublicPolicy": true,
+                      "ignorePublicAcls": true,
+                      "restrictPublicBuckets": true
                     }
                   }
                 },
@@ -669,10 +675,123 @@
                   "fqn": "aws-cdk-lib.aws_s3.CfnBucket",
                   "version": "2.136.0"
                 }
+              },
+              "Policy": {
+                "id": "Policy",
+                "path": "MyCdkProjectStack/StorageBucket/Policy",
+                "children": {
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "MyCdkProjectStack/StorageBucket/Policy/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
+                      "aws:cdk:cloudformation:props": {
+                        "bucket": {
+                          "Ref": "StorageBucket19DB2FF8"
+                        },
+                        "policyDocument": {
+                          "Statement": [
+                            {
+                              "Action": [
+                                "s3:Abort*",
+                                "s3:DeleteObject*",
+                                "s3:GetBucket*",
+                                "s3:GetObject*",
+                                "s3:List*",
+                                "s3:PutObject",
+                                "s3:PutObjectLegalHold",
+                                "s3:PutObjectRetention",
+                                "s3:PutObjectTagging",
+                                "s3:PutObjectVersionTagging"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "CanonicalUser": {
+                                  "Fn::GetAtt": [
+                                    "OriginAccessIdentityDF1E3CAC",
+                                    "S3CanonicalUserId"
+                                  ]
+                                }
+                              },
+                              "Resource": [
+                                {
+                                  "Fn::GetAtt": [
+                                    "StorageBucket19DB2FF8",
+                                    "Arn"
+                                  ]
+                                },
+                                {
+                                  "Fn::Join": [
+                                    "",
+                                    [
+                                      {
+                                        "Fn::GetAtt": [
+                                          "StorageBucket19DB2FF8",
+                                          "Arn"
+                                        ]
+                                      },
+                                      "/*"
+                                    ]
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "Action": [
+                                "s3:GetObject",
+                                "s3:PutObject"
+                              ],
+                              "Effect": "Allow",
+                              "Principal": {
+                                "CanonicalUser": {
+                                  "Fn::GetAtt": [
+                                    "OriginAccessIdentityDF1E3CAC",
+                                    "S3CanonicalUserId"
+                                  ]
+                                }
+                              },
+                              "Resource": {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "StorageBucket19DB2FF8",
+                                        "Arn"
+                                      ]
+                                    },
+                                    "/*"
+                                  ]
+                                ]
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.CfnBucketPolicy",
+                      "version": "2.136.0"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
+                  "version": "2.136.0"
+                }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_s3.Bucket",
+              "version": "2.136.0"
+            }
+          },
+          "StorageBucketName": {
+            "id": "StorageBucketName",
+            "path": "MyCdkProjectStack/StorageBucketName",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.136.0"
             }
           },

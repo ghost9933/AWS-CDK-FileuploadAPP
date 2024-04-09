@@ -1,5 +1,16 @@
 {
  "Resources": {
+  "OriginAccessIdentityDF1E3CAC": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Allows CloudFront to reach the bucket"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/OriginAccessIdentity/Resource"
+   }
+  },
   "WebsiteBucket75C24D94": {
    "Type": "AWS::S3::Bucket",
    "Properties": {
@@ -95,7 +106,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "97670ee6ba8df344e7085b718a199a895b6e23b5faa48f54e5d2d38e371f9572.zip"
+     "0490d669518e2e67c057904fbeb210e944f16530563f1327c1ff3ee60081b64b.zip"
     ],
     "DestinationBucketName": {
      "Ref": "WebsiteBucket75C24D94"
@@ -279,17 +290,6 @@
     "aws:asset:property": "Code"
    }
   },
-  "OriginAccessIdentityDF1E3CAC": {
-   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-   "Properties": {
-    "CloudFrontOriginAccessIdentityConfig": {
-     "Comment": "Allows CloudFront to reach the bucket"
-    }
-   },
-   "Metadata": {
-    "aws:cdk:path": "MyCdkProjectStack/OriginAccessIdentity/Resource"
-   }
-  },
   "WebsiteDistributionCFDistribution70408E7F": {
    "Type": "AWS::CloudFront::Distribution",
    "Properties": {
@@ -407,6 +407,12 @@
        ]
       }
      ]
+    },
+    "PublicAccessBlockConfiguration": {
+     "BlockPublicAcls": true,
+     "BlockPublicPolicy": true,
+     "IgnorePublicAcls": true,
+     "RestrictPublicBuckets": true
     }
    },
    "UpdateReplacePolicy": "Delete",
@@ -415,10 +421,100 @@
     "aws:cdk:path": "MyCdkProjectStack/StorageBucket/Resource"
    }
   },
+  "StorageBucketPolicy41A048DB": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "StorageBucket19DB2FF8"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:Abort*",
+        "s3:DeleteObject*",
+        "s3:GetBucket*",
+        "s3:GetObject*",
+        "s3:List*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "OriginAccessIdentityDF1E3CAC",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "StorageBucket19DB2FF8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "StorageBucket19DB2FF8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "CanonicalUser": {
+         "Fn::GetAtt": [
+          "OriginAccessIdentityDF1E3CAC",
+          "S3CanonicalUserId"
+         ]
+        }
+       },
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "StorageBucket19DB2FF8",
+            "Arn"
+           ]
+          },
+          "/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MyCdkProjectStack/StorageBucket/Policy/Resource"
+   }
+  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21RTWvCQBD9Ld7XbVVozxoRhIKi0B7DZjMJo5tZ2ZltkJD/XpKY6KGn9zHv8GZmqRerD/0+MzXPbX6dO8x0cxZjr8rUnDa80s0m2iuISgp6sAGO3qG9P+2HHsTGMLSKV2mTw835ewUkehhtJ0MZZhDW6w5a5UyV5UY3SUFf5g7hGwKjJ3VGKh2Ip10kK50zkaSYzFahqXRz8g46u8dnxYG1yjof8yJ4Et0cApZIa2uBeZ8DCUqfTbrMrsv8n5jGP5BtkSVgFsc2r7pVzFV3zYBUHk0wFQiEvs0o2nHr1HUbp6Zm61Cva04c9kdQ/XHOYkqkUiWRxVcnYB+DHfYc+at5iHKL/ccSTzkOZcjnoC/89rtc6E+9nF0YcR4iCVagTwP+AThta50PAgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22QQWvCQBCFf4v3dVsV2rOmCIWCotAew2YzhtHNrOzMNoSQ/1420eihp/fmvVn2Y5Z6sXrTrzPT8NyWl7nDQndHMfaiTMN5Z52P5Sl4Et3tAlZIa2uB+bMEEpRWZSfK0s427fy/MdU/UHwgS8AiCnpKb5/nXvFKd5toLyCpu7lR9t6hbR/xbR6HjWFIr/OuhKvzbQ0keqw+pkAZZhDW6yS9cqYuSqO77ERfpoXwDYET1BGpciCetpHsgDmZ7DSFvUJT6+7gHaR40Afi6HrFXKdrBqRqb4KpQSAM/X3o7xy5Swy5adg61OuGM4cDlhpwj2IqpEplkcXXB2Afgx1/vvvncBflGocbZp5KHIHJl6DP/PK7XOh3vZydGXEeIgnWoA+j/gFYvx6PDwIAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "MyCdkProjectStack/CDKMetadata/Default"
@@ -441,6 +537,11 @@
       }
      ]
     ]
+   }
+  },
+  "StorageBucketName": {
+   "Value": {
+    "Ref": "StorageBucket19DB2FF8"
    }
   }
  },
