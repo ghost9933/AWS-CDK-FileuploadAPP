@@ -34,5 +34,5 @@ To deploy and run this project, you will need:
 Start by cloning this repository to your local machine:
 
 ```bash
-git clone <repository-url>
-cd <project-name>
+git clone https://github.com/ghost9933/AWS-CDK-FileuploadAPP.git
+cd AWS-CDK-FileuploadAPP
